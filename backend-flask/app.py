@@ -3,15 +3,16 @@ from flask import request
 from flask_cors import CORS, cross_origin
 import os
 
-from services.home_activities import *
-from services.user_activities import *
-from services.create_activity import *
-from services.create_reply import *
-from services.search_activities import *
-from services.message_groups import *
-from services.messages import *
-from services.create_message import *
-from services.show_activity import *
+from services.home_activities import HomeActivities
+from services.notifications_activities import NotificationActivities
+from services.user_activities import UserActivities
+from services.create_activity import CreateActivity
+from services.create_reply import CreateReply
+from services.search_activities import SearchActivities
+from services.message_groups import MessageGroups
+from services.messages import Messages
+from services.create_message import CreateMessage
+from services.show_activity import ShowActivities
 
 app = Flask(__name__)
 frontend = os.getenv('FRONTEND_URL')
@@ -63,6 +64,11 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
   data = HomeActivities.run()
+  return data, 200
+
+@app.route("/api/activities/notifications", methods=['GET'])
+def data_notifications():
+  data = NotificationActivities.run()
   return data, 200
 
 @app.route("/api/activities/@<string:handle>", methods=['GET'])
